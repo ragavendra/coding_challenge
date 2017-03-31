@@ -1,4 +1,4 @@
-# junglefarms
+# Coding challenge - Duberex app
 
 ## Installation
 
