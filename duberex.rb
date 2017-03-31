@@ -3,8 +3,8 @@ require 'pony'
 require 'json'
 require 'pry'
 require 'sinatra/activerecord'
-require '././config/environments' #database configuration
-require '././models/model'
+require './config/environments' #database configuration
+require './models/model'
 
 #Algorithm
 #order_by should be say THC levels
@@ -84,11 +84,30 @@ class DuberApp < Sinatra::Application
 
 		#3.times do | product |
 		#end
+		
+		#back end team - lets save it to cache for 20 minutes
+		@model = Model.new(params['amount'], params['pin_code'], prod_id)
+
+		if @model.save
+			redirect '/results'
+		else
+			"Sorry, there was an error!"
+		end
+		
 		#return the array having the 3 prod ids
-		return prod_id
+		#return prod_id
 	end
-	
+
+	get '/results' do
+		@models = Model.all
+		erb :models
+	end
+
 	get '/' do
+		erb :index
+	end
+
+	get '/haml' do
 		haml :index
 		"Welcome to Duberex"
 	end

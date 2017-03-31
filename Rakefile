@@ -1,2 +1,2 @@
-require './apps/duberex'
+require './duberex'
 require 'sinatra/activerecord/rake'
