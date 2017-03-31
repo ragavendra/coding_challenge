@@ -40,6 +40,21 @@ class DuberApp < Sinatra::Application
 	end
 	
 	get '/challenge', :host_name => /^admin\./ do
+		
+		#check cache if in case someone from the same region searched in the last 20 minutes.
+		@models = Model.all
+		@models.each do | model |
+			time_diff = Time.now - model.updated_at
+			if (time_diff <= 20 * 60)	
+				if (model.amount.eql?params['amount'] && model.pin_code.eql?params['pin_code'])
+					redirect '/results'
+				end
+			else
+				#delete the record
+				@model.delete
+			end
+		end	
+		
 		# matches "GET /challenge?amount=50&pin_code=V3N3S8"
 		"Hello #{params['amount']}!, #{params['pin_code']}"
 		
@@ -85,8 +100,11 @@ class DuberApp < Sinatra::Application
 		#3.times do | product |
 		#end
 		
+		#get current time
+		updated_at = Time.now 
+
 		#back end team - lets save it to cache for 20 minutes
-		@model = Model.new(params['amount'], params['pin_code'], prod_id)
+		@model = Model.new(params['amount'], params['pin_code'], prod_id, updated_at)
 
 		if @model.save
 			redirect '/results'
