@@ -3,21 +3,26 @@ require 'pony'
 require 'json'
 require 'pry'
 
-class JungleFarmsApp < Sinatra::Application
-
-	#filters for all
-	before do
-		request.body.rewind
-		@request_json = JSON.parse request.body.read
-		puts "hi, I am in before of all"
+class DuberApp < Sinatra::Application
+	
+	get '/:amount', :host_name => /^admin\./ do
+		"Hello #{params['amount']}!"
+		request.body
 	end
 
-	#filters for each
-	before '/accounts' do
-		#authenticate!
-		puts "hi, I am in before of accounts"
-	end
-		
+		#order_by should be say THC levels
+		#sort_order to be desc as we fetching store with highest THC level
+		#get and total prices of first 3 products from store 1 and save in say var price_store_1[0], [1], [2] and its thc_1[0][1][2]
+		#get and total prices of first 3 products from store 2 and save in say var price_store_2[0], [1], [2] and its thc_2[0][1][2]
+		#get and total prices of first 3 products from store 3 and save in say var price_store_3[0], [1], [2] and its thc_3[0][1][2]
+
+		#NR - total the price for thc_x[0] and check if it exceeds $50, if not return these 3 products from the 3 different stores
+		#NR - total the price for thc_x[0] and check if it exceeds $50, if not return these 3 products from the 3 different stores
+	
+		#calculate price_per_thc_x[0][1][2] for each products (9 in this case)
+		#take the least price_per_thx from the three different stores and iterate until the price doesn't exceed $50
+		#return the result which is 3 products the user can get for $50 with highest THC level
+	
 	get '/retailers.?:format?', :host_name => /^admin\./ do
 		#json
 		"Hello #{params['format']}!"
@@ -39,22 +44,22 @@ class JungleFarmsApp < Sinatra::Application
 		"Hello #{params['format']}!"
 	
 		"Hello #{params['retailer_id']}!, #{params['auto_off']}, #{params['categories']}, #{params['include_subcategory']}, #{params['limit']}, #{params['metadata']}, #{params['offset']}, #{params['order_by']}, #{params['sort_order']}, #{params['web_online']}"
-	
-		#order_by should be say THC levels
-		#sort_order to be desc as we fetching store with highest THC level
-		#get and total prices of first 3 products from store 1 and save in say var price_store_1[0], [1], [2] and its thc_1[0][1][2]
-		#get and total prices of first 3 products from store 2 and save in say var price_store_2[0], [1], [2] and its thc_2[0][1][2]
-		#get and total prices of first 3 products from store 3 and save in say var price_store_3[0], [1], [2] and its thc_3[0][1][2]
-
-		#NR - total the price for thc_x[0] and check if it exceeds $50, if not return these 3 products from the 3 different stores
-		#NR - total the price for thc_x[0] and check if it exceeds $50, if not return these 3 products from the 3 different stores
-	
-		#calculate price_per_thc_x[0][1][2] for each products (9 in this case)
-		#take the least price_per_thx from the three different stores and iterate until the price doesn't exceed $50
-		#return the result which is 3 products the user can get for $50 with highest THC level
 	end
 
+=begin
+	#filters for all
+	before do
+		request.body.rewind
+		@request_json = JSON.parse request.body.read
+		puts "hi, I am in before of all"
+	end
 
+	#filters for each
+	before '/accounts' do
+		#authenticate!
+		puts "hi, I am in before of accounts"
+	end
+	
 
 	#handlers
 	post '/accounts' do
@@ -62,7 +67,7 @@ class JungleFarmsApp < Sinatra::Application
 		puts "hi, I am in post accounts"
 		redirect '/sessions'
 	end
-	
+=end	
 =begin
 	post '/accounts' do
 		#request.body
@@ -79,7 +84,7 @@ class JungleFarmsApp < Sinatra::Application
 		request.body
 	end
 
-enable :sessions
+	enable :sessions
 
 	get '/sessions' do
 		  

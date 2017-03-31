@@ -1,3 +1,3 @@
 # config.ru (run with rackup)
-require_relative 'apps/junglefarms'
-run JungleFarmsApp
+require_relative 'apps/duberex'
+run DuberApp
