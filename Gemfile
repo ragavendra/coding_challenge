@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'sinatra'
+gem "sinatra-activerecord"
 gem 'thin'
 gem 'rerun'
 gem 'rack'
