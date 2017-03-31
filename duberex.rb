@@ -46,7 +46,7 @@ class DuberApp < Sinatra::Application
 		@models.each do | model |
 			time_diff = Time.now - model.updated_at
 			if (time_diff <= 20 * 60)	
-				if (model.amount.eql?params['amount'] && model.pin_code.eql?params['pin_code'])
+				if (model.amount.eql?(params['amount']) && model.pin_code.eql?(params['pin_code']))
 					redirect '/results'
 				end
 			else
